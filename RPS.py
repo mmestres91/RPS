@@ -15,21 +15,25 @@ class RandomPlayer(Player):
     def move(self):
         return random.choice(moves)
 
+
 class HumanPlayer(Player):
     def move(self):
         move = input("Please enter your move!")
         if move in moves:
             return move
-        else: 
-            self.move()
-        
-'''class ReflectPlayer(HumanPlayer):
+        else:
+            return self.move()
+
+
+class ReflectPlayer(HumanPlayer):
     def move(self):
+
         return HumanPlayer.move(self)
+
 
 class CyclePlayer(Player):
     def move(self):
-        return "rock"'''
+        return "rock"
 
 
 def beats(one, two):
@@ -39,24 +43,32 @@ def beats(one, two):
 
 
 class Game:
-    player1score = 0 
-    player2score = 0
-    def __init__(self, p1, p2):
-        self.HumanPlayer = p1
-        self.RandomPlayer = p2
 
-    def play_round(self, HumanPlayer, RandomPlayer):
+    player1score = 0
+    player2score = 0
+
+    def __init__(self, p1, p4):
+        self.HumanPlayer = p1
+        #self.Player = p2
+        #self.RandomPlayer = p3
+        self.ReflectPlayer = p4
+        #self.CyclePlayer = p5
+
+    def play_round(self, HumanPlayer, ReflectPlayer):
         move1 = self.HumanPlayer.move()
-        move2 = self.RandomPlayer.move()
+        #move2 = self.RandomPlayer.move()
+        move2 = self.ReflectPlayer.move()
         print(f"Player One: {move1}  Player Two: {move2}")
         if beats(move1, move2) is True:
             self.player1score += 1
-        elif beats(move2, move1) is True: 
+        elif beats(move2, move1) is True:
             self.player2score += 1
         else:
             print("TIE! No points awarded")
-        print(f"Score: Player One: {self.player1score} Player Two: {self.player2score}")
-        self.RandomPlayer.learn(move1, move2)    
+        print(f"Score: Player One: {self.player1score}")
+        print(f"Score: Player Two: {self.player2score}")
+        #self.RandomPlayer.learn(move1, move2)
+        self.ReflectPlayer.learn(move1, move2)
 
     def play_game(self):
         print("Game start!")
@@ -73,6 +85,5 @@ class Game:
 
 
 if __name__ == '__main__':
-    game = Game(HumanPlayer(), RandomPlayer())
+    game = Game(HumanPlayer(), ReflectPlayer())
     game.play_game()
-    
