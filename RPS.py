@@ -8,7 +8,6 @@ moves = ['rock', 'paper', 'scissors']
 """The Player class is the parent class for all of the Players
 in this game"""
 
-
 class Player:
     def move(self):
         return 'rock'
@@ -28,23 +27,35 @@ def beats(one, two):
             (one == 'paper' and two == 'rock'))
 
 
+
 class Game:
     def __init__(self, p1, p2):
         self.RandomPlayer = p1
         self.RandomPlayer = p2
 
-    def play_round(self, RandomPlayer):
+    def play_round(self, RandomPlayer, player1score, player2score):
         move1 = self.RandomPlayer.move()
         move2 = self.RandomPlayer.move()
         print(f"Player 1: {move1}  Player 2: {move2}")
+        if beats(move1, move2) is True:
+            player1score += 1
+            print("Player 1 is the winner!")
+        elif beats(move2, move1) is True: 
+            player2score += 1
+            print("Player 2 is the winner!")
+        else:
+            print("We have a tie!")
+        print(f"Score: Player 1: {player1score} Player 2: {player2score}")
         self.RandomPlayer.learn(move1, move2)
-        self.RandomPlayer.learn(move2, move1)
+        self.RandomPlayer.learn(move2, move1)     
 
     def play_game(self):
+        player1score = 0 
+        player2score = 0
         print("Game start!")
-        for round in range(3):
+        for round in range(6):
             print(f"Round {round}:")
-            self.play_round(RandomPlayer)
+            self.play_round(RandomPlayer, player1score, player2score)
         print("Game over!")
 
 
