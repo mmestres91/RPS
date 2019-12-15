@@ -21,15 +21,15 @@ class HumanPlayer(Player):
         if move in moves:
             return move
         else: 
-            HumanPlayer.move(self)
-
-class ReflectPlayer(HumanPlayer):
+            self.move()
+        
+'''class ReflectPlayer(HumanPlayer):
     def move(self):
         return HumanPlayer.move(self)
 
 class CyclePlayer(Player):
     def move(self):
-        return "rock"
+        return "rock"'''
 
 
 def beats(one, two):
