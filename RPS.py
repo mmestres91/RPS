@@ -20,6 +20,10 @@ class RandomPlayer(Player):
     def move(self):
         return random.choice(moves)
 
+class HumanPlayer(Player):
+    def move(self):
+      input("Please enter your move!")
+
 
 def beats(one, two):
     return ((one == 'rock' and two == 'scissors') or
@@ -30,11 +34,11 @@ def beats(one, two):
 
 class Game:
     def __init__(self, p1, p2):
-        self.RandomPlayer = p1
+        self.HumanPlayer = p1
         self.RandomPlayer = p2
 
-    def play_round(self, RandomPlayer, player1score, player2score):
-        move1 = self.RandomPlayer.move()
+    def play_round(self, HumanPlayer, RandomPlayer, player1score, player2score):
+        move1 = self.HumanPlayer()
         move2 = self.RandomPlayer.move()
         print(f"Player 1: {move1}  Player 2: {move2}")
         if beats(move1, move2) is True:
@@ -55,10 +59,11 @@ class Game:
         print("Game start!")
         for round in range(6):
             print(f"Round {round}:")
-            self.play_round(RandomPlayer, player1score, player2score)
+            self.play_round(HumanPlayer, RandomPlayer, player1score, player2score)
         print("Game over!")
 
 
 if __name__ == '__main__':
-    game = Game(RandomPlayer(), RandomPlayer())
+    game = Game(HumanPlayer(), RandomPlayer())
     game.play_game()
+    
