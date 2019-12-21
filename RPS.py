@@ -58,6 +58,8 @@ class Game:
         self.ReflectPlayer = p4
         #self.CyclePlayer = p5
 
+        #Create If Statement to handle user input on which CPU to play
+
     def play_round(self, HumanPlayer, ReflectPlayer):
         move1 = self.HumanPlayer.move()
         #move2 = self.RandomPlayer.move()
@@ -96,6 +98,8 @@ class Game:
 
 
 if __name__ == '__main__':
+    #Create input and ask Human Player what CPU they want to play against
+    
     game = Game(HumanPlayer(), ReflectPlayer())
     game.play_game()
     
