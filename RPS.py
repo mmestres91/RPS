@@ -8,6 +8,8 @@ class Player:
         return 'rock'
 
     def learn(self, my_move, their_move):
+        self.my_move = their_move
+        self.their_move = their_move
         pass
 
 
@@ -25,10 +27,12 @@ class HumanPlayer(Player):
             return self.move()
 
 
-class ReflectPlayer(HumanPlayer):
+class ReflectPlayer(Player):
     def move(self):
+        return random.choice(moves)
 
-        return HumanPlayer.move(self)
+    def reflectmove(self):
+        return self.my_move
 
 
 class CyclePlayer(Player):
@@ -57,7 +61,10 @@ class Game:
     def play_round(self, HumanPlayer, ReflectPlayer):
         move1 = self.HumanPlayer.move()
         #move2 = self.RandomPlayer.move()
-        move2 = self.ReflectPlayer.move()
+        if self.play_round.has_been_Called is False:
+            move2 = self.ReflectPlayer.move()
+        else:
+            move2 = self.ReflectPlayer.reflectmove()
         print(f"Player One: {move1}  Player Two: {move2}")
         if beats(move1, move2) is True:
             self.player1score += 1
@@ -69,12 +76,16 @@ class Game:
         print(f"Score: Player Two: {self.player2score}")
         #self.RandomPlayer.learn(move1, move2)
         self.ReflectPlayer.learn(move1, move2)
+        self.ReflectPlayer.learn(move2, move1)
+        Game.play_round.has_been_Called = True
+
+    play_round.has_been_Called = False
 
     def play_game(self):
         print("Game start!")
         for round in range(5):
             print(f"Round {round}:")
-            self.play_round(HumanPlayer, RandomPlayer)
+            self.play_round(HumanPlayer, ReflectPlayer)
         if self.player1score > self.player2score:
             print("You Won!")
         elif self.player1score == self.player2score:
@@ -87,3 +98,4 @@ class Game:
 if __name__ == '__main__':
     game = Game(HumanPlayer(), ReflectPlayer())
     game.play_game()
+    
