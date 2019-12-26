@@ -36,15 +36,22 @@ class HumanPlayer(Player):
 
 class ReflectPlayer(Player):
     def move(self):
-        return random.choice(moves)
-
-    def reflectmove(self):
-        return self.my_move
+        if Game.play_round.has_been_Called is False:
+            return random.choice(moves)
+        else:
+            return self.my_move
 
 
 class CyclePlayer(Player):
     def move(self):
-        return "rock"
+        if Game.play_round.has_been_Called is False:
+            return random.choice(moves)
+        elif self.my_move == "rock":
+            return "paper"
+        elif self.my_move == "paper":
+            return "scissors"
+        else:
+            return "rock"
 
 
 def beats(one, two):
@@ -60,23 +67,12 @@ class Game:
 
     def __init__(self, p1, p2):
         self.HumanPlayer = p1
-        if game_input.playerselect == 1:
-            self.Player = p2
-        # elif player_input.playerselect == 2: 
-        #     self.RandomPlayer = p2
-        # elif player_input.playerselect == 3:    
-        #     self.ReflectPlayer = p2
-        # else: self.CyclePlayer = p2
+        self.Player = p2
 
-        #Create If Statement to handle user input on which CPU to play
 
     def play_round(self, HumanPlayer, Player):
         move1 = self.HumanPlayer.move()
         move2 = self.Player.move()
-        # if self.play_round.has_been_Called is False:
-        #     move2 = self.Player.move()
-        # else:
-        #     move2 = self.ReflectPlayer.reflectmove()
         print(f"Player One: {move1}  Player Two: {move2}")
         if beats(move1, move2) is True:
             self.player1score += 1
@@ -86,7 +82,6 @@ class Game:
             print("TIE! No points awarded")
         print(f"Score: Player One: {self.player1score}")
         print(f"Score: Player Two: {self.player2score}")
-        #self.RandomPlayer.learn(move1, move2)
         self.Player.learn(move1, move2)
         self.Player.learn(move2, move1)
         Game.play_round.has_been_Called = True
@@ -109,23 +104,30 @@ class Game:
 
 def game_start():
 #Create input and ask Human Player what CPU they want to play against
-    print_pause("Welcome to Rock Paper Scissors!")
-    print_pause("Choose your Competition:")
-    print_pause("Press 1 for Dummy Player")
-    print_pause("Press 2 for Random Player")
-    print_pause("Press 3 for Reflect Player")
-    print_pause("Press 4 for Cycle Player")
+    print("Welcome to Rock Paper Scissors!")
+    print("Choose your Competition:")
+    print("Press 1 for Dummy Player")
+    print("Press 2 for Random Player")
+    print("Press 3 for Reflect Player")
+    print("Press 4 for Cycle Player")
     game_input()
+
 
 def game_input():
     playerselect = input("Selection:")
-    if playerselect in players:
-        return playerselect
+    if playerselect == "1": 
+        game = Game(HumanPlayer(), Player())
+    elif playerselect == "2":
+        game = Game(HumanPlayer(), RandomPlayer())
+    elif playerselect == "3":
+        game = Game(HumanPlayer(), ReflectPlayer())
+    elif playerselect == "4":
+        game = Game(HumanPlayer(), CyclePlayer())
     else: 
         game_input()
+    game.play_game()
 
 if __name__ == '__main__':  
     game_start()
-    game = Game(HumanPlayer(), game_input())
-    game.play_game()
+    
     
