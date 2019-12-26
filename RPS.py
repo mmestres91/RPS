@@ -69,7 +69,6 @@ class Game:
         self.HumanPlayer = p1
         self.Player = p2
 
-
     def play_round(self, HumanPlayer, Player):
         move1 = self.HumanPlayer.move()
         move2 = self.Player.move()
@@ -103,7 +102,7 @@ class Game:
 
 
 def game_start():
-#Create input and ask Human Player what CPU they want to play against
+    # Create input and ask Human Player what CPU they want to play against
     print("Welcome to Rock Paper Scissors!")
     print("Choose your Competition:")
     print("Press 1 for Dummy Player")
@@ -115,7 +114,7 @@ def game_start():
 
 def game_input():
     playerselect = input("Selection:")
-    if playerselect == "1": 
+    if playerselect == "1":
         game = Game(HumanPlayer(), Player())
     elif playerselect == "2":
         game = Game(HumanPlayer(), RandomPlayer())
@@ -123,11 +122,10 @@ def game_input():
         game = Game(HumanPlayer(), ReflectPlayer())
     elif playerselect == "4":
         game = Game(HumanPlayer(), CyclePlayer())
-    else: 
+    else:
         game_input()
     game.play_game()
 
-if __name__ == '__main__':  
+
+if __name__ == '__main__':
     game_start()
-    
-    
