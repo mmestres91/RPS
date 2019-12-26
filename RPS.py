@@ -1,13 +1,7 @@
 import random
-import time
 
 moves = ['rock', 'paper', 'scissors']
 players = ["1", "2", "3", "4"]
-
-
-def print_pause(str):
-    print(str)
-    time.sleep(2)
 
 
 class Player:
